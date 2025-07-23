@@ -1,12 +1,11 @@
-# dbt_starter
-DBT Starter Template Repository with macros, CI/CD Templates/ Folder Structure which are commonly used in Dalgo's DBT Projects
+# dbt_project_baala
+Project Baala DBT Repository 
+This repository contains the dbt project for Project Baala, which is designed to transform and model data for analytics purposes.
 
-### Using the starter project
-
+## Getting Started
 Try running the following commands:
 - dbt run
 - dbt test
-
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)

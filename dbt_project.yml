@@ -3,12 +3,11 @@
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
 
-name: '' #put in the dbt project name here
+name: 'dbt_project_baala'
 version: '1.0.0'
-config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: '' #put in the same profile name here as in .dbt-ci.yml and profiles.yml
+profile: 'dbt_project_baala' #put in the same profile name here as in .dbt-ci.yml and profiles.yml
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -35,7 +34,7 @@ flags:
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
-  <dbt_project_name>: #put the same name here as in as in .dbt-ci.yml and profiles.yml
+  dbt_project_baala: #put the same name here as in as in .dbt-ci.yml and profiles.yml
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
