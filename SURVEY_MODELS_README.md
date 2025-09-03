@@ -34,6 +34,12 @@ The project processes survey data from **41 different surveys** across multiple 
 - Standardized field naming conventions
 - Null handling and data type casting
 
+### Dynamic Data Handling
+- **Automatic Field Discovery**: Automatically detects and extracts all fields from any survey
+- **Flexible Schema**: Adapts to different survey structures without code changes
+- **Field Categorization**: Automatically categorizes fields by type (demographics, location, etc.)
+- **Schema Analysis**: Provides insights into what fields are available across surveys
+
 ### Data Standardization
 - Common respondent demographics (age, gender, location, education)
 - Project categorization and organization grouping
@@ -67,6 +73,13 @@ models/
 - `extract_jsonb_array()` - JSONB array extraction
 - `extract_jsonb_object()` - JSONB object extraction
 
+### `macros/dynamic_jsonb_extractor.sql` (NEW!)
+- `extract_all_jsonb_fields()` - Dynamically extracts all fields from any survey
+- `extract_jsonb_keys()` - Discovers all available fields in JSONB data
+- `extract_jsonb_field_if_exists()` - Safely extracts fields that may not exist
+- `extract_conditional_fields()` - Extracts fields based on conditional logic
+- `create_dynamic_schema()` - Generates schema information from JSONB structure
+
 ## Usage Examples
 
 ### 1. Query Individual Survey Data
@@ -74,6 +87,27 @@ models/
 -- Get CAF Ajmer baseline data
 select * from {{ ref('stg_caf_ajmer_2024_baselineendline_survey') }}
 where survey_phase = 'baseline';
+```
+
+### 2. Dynamic Field Discovery
+```sql
+-- Discover what fields are available in any survey
+select 
+    survey_name,
+    all_field_names,
+    field_count,
+    has_demographic_fields,
+    has_location_fields,
+    has_socioeconomic_fields
+from {{ ref('stg_survey_structure_analyzer') }}
+where survey_name = 'your_survey_name';
+```
+
+### 3. Dynamic Field Extraction
+```sql
+-- Use the dynamic template for any survey
+-- This automatically adapts to the survey structure
+select * from {{ ref('stg_dynamic_survey_template') }};
 ```
 
 ### 2. Cross-Survey Analysis
