@@ -50,11 +50,13 @@ The project processes survey data from **41 different surveys** across multiple 
 ```
 models/
 ├── sources.yml                           # Source definitions
-└── staging/                             # Individual survey models
-    ├── stg_survey_base.sql             # Base model template
-    ├── stg_caf_ajmer_2024_baselineendline_survey.sql
-    ├── stg_fbc_school_boys_2024_baseline.sql
-    └── ... (39 more staging models)
+├── staging/                             # Individual survey models
+│   ├── stg_survey_base.sql             # Base model template
+│   ├── stg_caf_ajmer_2024_baselineendline_survey.sql
+│   ├── stg_fbc_school_boys_2024_baseline.sql
+│   └── ... (39 more staging models)
+├── intermediate/                        # Combined survey models (currently empty)
+└── marts/                              # Final analysis models (currently empty)
 ```
 
 ## Macros
