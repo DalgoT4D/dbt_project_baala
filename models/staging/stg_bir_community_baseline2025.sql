@@ -34,7 +34,7 @@ with bir_community_baseline2025_data as (
         end as end_timestamp,
         
         -- Dynamic field extraction using the new macro
-        {{ extract_all_jsonb_fields('data') }}},
+        {{ extract_all_jsonb_fields('data') }},
         
         -- Survey-specific fields can be added here if needed
         

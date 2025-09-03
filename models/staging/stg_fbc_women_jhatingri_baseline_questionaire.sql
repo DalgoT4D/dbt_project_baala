@@ -34,7 +34,7 @@ with fbc_women_jhatingri_baseline_questionaire_data as (
         end as end_timestamp,
         
         -- Dynamic field extraction using the new macro
-        {{ extract_all_jsonb_fields('data') }}},
+        {{ extract_all_jsonb_fields('data') }},
         
         -- Survey-specific fields can be added here if needed
         

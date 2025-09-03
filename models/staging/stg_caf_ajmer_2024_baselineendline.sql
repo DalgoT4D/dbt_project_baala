@@ -34,7 +34,7 @@ with caf_ajmer_2024_baselineendline_data as (
         end as end_timestamp,
         
         -- Dynamic field extraction using the new macro
-        {{ extract_all_jsonb_fields('data') }}},
+        {{ extract_all_jsonb_fields('data') }},
         
         -- Survey-specific fields can be added here if needed
         
@@ -47,7 +47,7 @@ with caf_ajmer_2024_baselineendline_data as (
         _airbyte_extracted_at as data_extracted_at,
         current_timestamp as model_created_at
         
-    from {{ source('survey_raw_data', 'caf_ajmer_2024_baselineendline') }}
+    from {{ source('survey_raw_data', 'caf_ajmer_2024_baselineendline_survey') }}
 )
 
 select * from caf_ajmer_2024_baselineendline_data

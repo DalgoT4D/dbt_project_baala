@@ -34,7 +34,7 @@ with fbc_school_boys_2024_baseline_data as (
         end as end_timestamp,
         
         -- Dynamic field extraction using the new macro
-        {{ extract_all_jsonb_fields('data') }}},
+        {{ extract_all_jsonb_fields('data') }},
         
         -- Survey-specific fields can be added here if needed
         
@@ -47,7 +47,7 @@ with fbc_school_boys_2024_baseline_data as (
         _airbyte_extracted_at as data_extracted_at,
         current_timestamp as model_created_at
         
-    from {{ source('survey_raw_data', 'fbc_school_boys_2024_baseline') }}
+    from {{ source('survey_raw_data', 'fbc_school_boys_2024_baseline_survey') }}
 )
 
 select * from fbc_school_boys_2024_baseline_data
