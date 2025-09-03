@@ -1,124 +1,53 @@
-{{
+{
     config(
-        materialized='table',
-        tags=['staging', 'survey', 'utility', 'structure_analysis']
+        materialized='view',
+        tags=['staging', 'survey', 'baseline']
     )
-}}
+}
 
--- Survey Structure Analyzer
--- This model analyzes the JSONB structure of all surveys to understand field availability
--- Useful for discovering what fields are available across different surveys
+-- Staging model for survey_structure_analyzer
+-- This model flattens the JSONB data and standardizes the structure
 
-with all_surveys as (
-    -- Baseline Questionnaire Bareilly
-    select 
-        'baseline_questionnaire_bareilly' as survey_name,
-        'Baseline Questionnaire Bareilly' as survey_description,
+with survey_structure_analyzer_data as (
+    select
+        -- Standard fields
+        _id,
+        end,
         data,
-        _airbyte_extracted_at
-    from {{ source('survey_raw_data', 'baseline_questionnaire_bareilly') }}
-    
-    union all
-    
-    -- Bir Community Baseline 2025
-    select 
-        'bir_community_baseline2025' as survey_name,
-        'Bir Community Baseline 2025' as survey_description,
-        data,
-        _airbyte_extracted_at
-    from {{ source('survey_raw_data', 'bir_community_baseline2025') }}
-    
-    union all
-    
-    -- CAF Ajmer 2024
-    select 
-        'caf_ajmer_2024_baselineendline_survey' as survey_name,
-        'CAF Ajmer 2024 Baseline/Endline' as survey_description,
-        data,
-        _airbyte_extracted_at
-    from {{ source('survey_raw_data', 'caf_ajmer_2024_baselineendline_survey') }}
-    
-    union all
-    
-    -- Add more surveys as needed...
-    -- You can add all 41 surveys here for complete analysis
-),
-
-field_analysis as (
-    select 
-        survey_name,
-        survey_description,
+        endtime,
+        _submission_time,
+        _airbyte_raw_id,
         _airbyte_extracted_at,
+        _airbyte_meta,
         
-        -- Extract all unique field names from JSONB
-        (select array_agg(distinct key) 
-         from jsonb_each(data)) as all_field_names,
-        
-        -- Count total fields
-        jsonb_object_keys(data) as field_count,
-        
-        -- Extract field types
-        (select jsonb_object_agg(key, jsonb_type(value))
-         from jsonb_each(data)) as field_types,
-        
-        -- Sample values for each field (first 3 unique values)
-        (select jsonb_object_agg(key, 
-            case 
-                when jsonb_type(value) = 'string' then 
-                    (select string_agg(distinct value::text, '|') 
-                     from (select value::text from jsonb_each(data) where key = k.key limit 3) t)
-                when jsonb_type(value) = 'number' then 
-                    (select string_agg(distinct value::text, '|') 
-                     from (select value::text from jsonb_each(data) where key = k.key limit 3) t)
-                else 'complex_type'
-            end)
-         from jsonb_each(data) k) as sample_values
-        
-    from all_surveys
-),
-
-field_categorization as (
-    select 
-        *,
-        
-        -- Categorize fields by type
+        -- Standardized metadata fields
         case 
-            when 'name' = any(all_field_names) then true 
-            else false 
-        end as has_demographic_fields,
+            when _submission_time is not null then 
+                try_cast(_submission_time as timestamp)
+            else null 
+        end as submission_timestamp,
         
         case 
-            when 'age' = any(all_field_names) or 'gender' = any(all_field_names) then true 
-            else false 
-        end as has_personal_fields,
+            when endtime is not null then 
+                try_cast(endtime as timestamp)
+            else null 
+        end as end_timestamp,
         
-        case 
-            when 'village' = any(all_field_names) or 'district' = any(all_field_names) or 'state' = any(all_field_names) then true 
-            else false 
-        end as has_location_fields,
+        -- Dynamic field extraction using the new macro
+        {{ extract_all_jsonb_fields('data') }}},
         
-        case 
-            when 'education' = any(all_field_names) or 'occupation' = any(all_field_names) or 'income' = any(all_field_names) then true 
-            else false 
-        end as has_socioeconomic_fields,
+        -- Survey-specific fields can be added here if needed
         
-        case 
-            when 'baseline_date' = any(all_field_names) or 'endline_date' = any(all_field_names) then true 
-            else false 
-        end as has_temporal_fields,
+        -- Data quality indicators
+        case when data is not null then true else false end as has_json_data,
+        case when _submission_time is not null then true else false end as has_submission_time,
+        case when endtime is not null then true else false end as has_end_time,
         
-        case 
-            when 'school_name' = any(all_field_names) or 'class' = any(all_field_names) then true 
-            else false 
-        end as has_education_fields,
+        -- Timestamps for analysis
+        _airbyte_extracted_at as data_extracted_at,
+        current_timestamp as model_created_at
         
-        case 
-            when 'health_status' = any(all_field_names) or 'nutrition_status' = any(all_field_names) then true 
-            else false 
-        end as has_health_fields
-        
-    from field_analysis
+    from {{ source('survey_raw_data', 'survey_structure_analyzer') }}
 )
 
-select * from field_categorization
-order by survey_name
+select * from survey_structure_analyzer_data

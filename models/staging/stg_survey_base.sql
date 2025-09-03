@@ -1,17 +1,16 @@
-{{
+{
     config(
         materialized='view',
-        tags=['staging', 'survey', 'base']
+        tags=['staging', 'survey', 'baseline']
     )
-}}
+}
 
--- Base staging model for all survey data
--- This model defines the common structure and transformations
--- All specific survey staging models should extend this base model
+-- Staging model for survey_base
+-- This model flattens the JSONB data and standardizes the structure
 
-with base_survey_data as (
+with survey_base_data as (
     select
-        -- Standard fields from all survey tables
+        -- Standard fields
         _id,
         end,
         data,
@@ -34,25 +33,10 @@ with base_survey_data as (
             else null 
         end as end_timestamp,
         
-        -- Extract common JSONB fields
-        {{ extract_jsonb_value('data', 'name') }} as respondent_name,
-        {{ extract_jsonb_value('data', 'age') }} as respondent_age,
-        {{ extract_jsonb_value('data', 'gender') }} as respondent_gender,
-        {{ extract_jsonb_value('data', 'location') }} as location,
-        {{ extract_jsonb_value('data', 'village') }} as village,
-        {{ extract_jsonb_value('data', 'district') }} as district,
-        {{ extract_jsonb_value('data', 'state') }} as state,
-        {{ extract_jsonb_value('data', 'education') }} as education_level,
-        {{ extract_jsonb_value('data', 'occupation') }} as occupation,
-        {{ extract_jsonb_value('data', 'income') }} as income_level,
-        {{ extract_jsonb_value('data', 'family_size') }} as family_size,
-        {{ extract_jsonb_value('data', 'children_count') }} as children_count,
-        {{ extract_jsonb_value('data', 'survey_date') }} as survey_date,
-        {{ extract_jsonb_value('data', 'respondent_id') }} as respondent_id,
-        {{ extract_jsonb_value('data', 'household_id') }} as household_id,
-        {{ extract_jsonb_value('data', 'community_id') }} as community_id,
-        {{ extract_jsonb_value('data', 'project_name') }} as project_name,
-        {{ extract_jsonb_value('data', 'intervention_type') }} as intervention_type,
+        -- Dynamic field extraction using the new macro
+        {{ extract_all_jsonb_fields('data') }}},
+        
+        -- Survey-specific fields can be added here if needed
         
         -- Data quality indicators
         case when data is not null then true else false end as has_json_data,
@@ -63,10 +47,7 @@ with base_survey_data as (
         _airbyte_extracted_at as data_extracted_at,
         current_timestamp as model_created_at
         
-    from {{ source('survey_raw_data', 'baseline_questionnaire_bareilly') }}
-    
-    -- Union with other survey tables (this will be overridden in specific models)
-    -- where 1=0  -- Comment this out when extending in specific models
+    from {{ source('survey_raw_data', 'survey_base') }}
 )
 
-select * from base_survey_data
+select * from survey_base_data

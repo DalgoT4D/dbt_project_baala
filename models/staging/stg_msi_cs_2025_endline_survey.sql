@@ -1,11 +1,11 @@
 {
     config(
         materialized='view',
-        tags=['staging', 'survey', 'endline']
+        tags=['staging', 'survey', 'baseline']
     )
 }
 
--- Staging model for MSI CS 2025 endline survey data
+-- Staging model for msi_cs_2025_endline_survey
 -- This model flattens the JSONB data and standardizes the structure
 
 with msi_cs_2025_endline_survey_data as (
@@ -33,30 +33,10 @@ with msi_cs_2025_endline_survey_data as (
             else null 
         end as end_timestamp,
         
-        -- Extract common JSONB fields
-        {{ extract_jsonb_value('data', 'name') }} as respondent_name,
-        {{ extract_jsonb_value('data', 'age') }} as respondent_age,
-        {{ extract_jsonb_value('data', 'gender') }} as respondent_gender,
-        {{ extract_jsonb_value('data', 'location') }} as location,
-        {{ extract_jsonb_value('data', 'village') }} as village,
-        {{ extract_jsonb_value('data', 'district') }} as district,
-        {{ extract_jsonb_value('data', 'state') }} as state,
-        {{ extract_jsonb_value('data', 'education') }} as education_level,
-        {{ extract_jsonb_value('data', 'occupation') }} as occupation,
-        {{ extract_jsonb_value('data', 'income') }} as income_level,
-        {{ extract_jsonb_value('data', 'family_size') }} as family_size,
-        {{ extract_jsonb_value('data', 'children_count') }} as children_count,
-        {{ extract_jsonb_value('data', 'survey_date') }} as survey_date,
-        {{ extract_jsonb_value('data', 'respondent_id') }} as respondent_id,
-        {{ extract_jsonb_value('data', 'household_id') }} as household_id,
-        {{ extract_jsonb_value('data', 'community_id') }} as community_id,
-        {{ extract_jsonb_value('data', 'project_name') }} as project_name,
-        {{ extract_jsonb_value('data', 'intervention_type') }} as intervention_type,
+        -- Dynamic field extraction using the new macro
+        {{ extract_all_jsonb_fields('data') }}},
         
-        -- Endline specific fields
-        {{ extract_jsonb_value('data', 'final_assessment') }} as final_assessment,
-        {{ extract_jsonb_value('data', 'endline_date') }} as endline_date,
-        {{ extract_jsonb_value('data', 'post_intervention') }} as post_intervention,
+        -- Survey-specific fields can be added here if needed
         
         -- Data quality indicators
         case when data is not null then true else false end as has_json_data,

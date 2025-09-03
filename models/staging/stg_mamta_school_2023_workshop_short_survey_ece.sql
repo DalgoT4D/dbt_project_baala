@@ -1,11 +1,11 @@
 {
     config(
         materialized='view',
-        tags=['staging', 'survey', 'school']
+        tags=['staging', 'survey', 'baseline']
     )
 }
 
--- Staging model for Mamta School 2023 workshop short survey ECE data
+-- Staging model for mamta_school_2023_workshop_short_survey_ece
 -- This model flattens the JSONB data and standardizes the structure
 
 with mamta_school_2023_workshop_short_survey_ece_data as (
@@ -33,32 +33,10 @@ with mamta_school_2023_workshop_short_survey_ece_data as (
             else null 
         end as end_timestamp,
         
-        -- Extract common JSONB fields
-        {{ extract_jsonb_value('data', 'name') }} as respondent_name,
-        {{ extract_jsonb_value('data', 'age') }} as respondent_age,
-        {{ extract_jsonb_value('data', 'gender') }} as respondent_gender,
-        {{ extract_jsonb_value('data', 'location') }} as location,
-        {{ extract_jsonb_value('data', 'village') }} as village,
-        {{ extract_jsonb_value('data', 'district') }} as district,
-        {{ extract_jsonb_value('data', 'state') }} as state,
-        {{ extract_jsonb_value('data', 'education') }} as education_level,
-        {{ extract_jsonb_value('data', 'occupation') }} as occupation,
-        {{ extract_jsonb_value('data', 'income') }} as income_level,
-        {{ extract_jsonb_value('data', 'family_size') }} as family_size,
-        {{ extract_jsonb_value('data', 'children_count') }} as children_count,
-        {{ extract_jsonb_value('data', 'survey_date') }} as survey_date,
-        {{ extract_jsonb_value('data', 'respondent_id') }} as respondent_id,
-        {{ extract_jsonb_value('data', 'household_id') }} as household_id,
-        {{ extract_jsonb_value('data', 'community_id') }} as community_id,
-        {{ extract_jsonb_value('data', 'project_name') }} as project_name,
-        {{ extract_jsonb_value('data', 'intervention_type') }} as intervention_type,
+        -- Dynamic field extraction using the new macro
+        {{ extract_all_jsonb_fields('data') }}},
         
-        -- School specific fields
-        {{ extract_jsonb_value('data', 'school_name') }} as school_name,
-        {{ extract_jsonb_value('data', 'class') }} as class,
-        {{ extract_jsonb_value('data', 'section') }} as section,
-        {{ extract_jsonb_value('data', 'teacher_name') }} as teacher_name,
-        {{ extract_jsonb_value('data', 'roll_number') }} as roll_number,
+        -- Survey-specific fields can be added here if needed
         
         -- Data quality indicators
         case when data is not null then true else false end as has_json_data,
