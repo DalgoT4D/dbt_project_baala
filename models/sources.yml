@@ -3,7 +3,7 @@ version: 2
 sources:
   - name: survey_raw_data
     description: "Raw survey data from various baseline and endline surveys across different projects and locations"
-    schema: "{{ env_var('DBT_SCHEMA', 'public') }}"
+    schema: "kobotoolbox_source_data"
     tables:
       # Baseline Surveys
       - name: baseline_questionnaire_bareilly
