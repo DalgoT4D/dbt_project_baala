@@ -38,6 +38,17 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    # Materialize staging models as tables for better performance
+    # Note: These will be in intermediate_staging schema due to custom schema macro
+    staging:
+      +materialized: table
+      +schema: "intermediate_staging"
+    # Materialize intermediate models as tables
+    intermediate:
+      +materialized: table
+    # Materialize marts models as tables
+    marts:
+      +materialized: table
       
   elementary:
     +schema: "elementary"

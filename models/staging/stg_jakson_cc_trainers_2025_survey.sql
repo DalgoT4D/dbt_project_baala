@@ -1,9 +1,9 @@
-{
+{{
     config(
-        materialized='view',
+        materialized='table',
         tags=['staging', 'survey', 'baseline']
     )
-}
+}}
 
 -- Staging model for jakson_cc_trainers_2025_survey
 -- This model flattens the JSONB data and standardizes the structure
@@ -12,7 +12,7 @@ with jakson_cc_trainers_2025_survey_data as (
     select
         -- Standard fields
         _id,
-        end,
+        "end",
         data,
         endtime,
         _submission_time,
@@ -23,13 +23,13 @@ with jakson_cc_trainers_2025_survey_data as (
         -- Standardized metadata fields
         case 
             when _submission_time is not null then 
-                try_cast(_submission_time as timestamp)
+                CAST(_submission_time as timestamp)
             else null 
         end as submission_timestamp,
         
         case 
             when endtime is not null then 
-                try_cast(endtime as timestamp)
+                CAST(endtime as timestamp)
             else null 
         end as end_timestamp,
         

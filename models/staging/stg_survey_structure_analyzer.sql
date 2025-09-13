@@ -38,8 +38,6 @@ with all_surveys as (
         _airbyte_extracted_at
     from {{ source('survey_raw_data', 'caf_ajmer_2024_baselineendline_survey') }}
     
-    union all
-    
     -- Add more surveys as needed...
     -- You can add all 41 surveys here for complete analysis
 ),
@@ -58,16 +56,16 @@ field_analysis as (
         jsonb_object_keys(data) as field_count,
         
         -- Extract field types
-        (select jsonb_object_agg(key, jsonb_type(value))
+        (select jsonb_object_agg(key, jsonb_typeof(value))
          from jsonb_each(data)) as field_types,
         
         -- Sample values for each field (first 3 unique values)
         (select jsonb_object_agg(key, 
             case 
-                when jsonb_type(value) = 'string' then 
+                when jsonb_typeof(value) = 'string' then 
                     (select string_agg(distinct value::text, '|') 
                      from (select value::text from jsonb_each(data) where key = k.key limit 3) t)
-                when jsonb_type(value) = 'number' then 
+                when jsonb_typeof(value) = 'number' then 
                     (select string_agg(distinct value::text, '|') 
                      from (select value::text from jsonb_each(data) where key = k.key limit 3) t)
                 else 'complex_type'
