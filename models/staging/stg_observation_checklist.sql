@@ -1,26 +1,19 @@
 {{
     config(
         materialized='table',
-        tags=['staging', 'survey', 'baseline']
+        tags=['staging', 'survey', 'assessment']
     )
 }}
 
--- Staging model for observation_checklist
+-- Staging model for Observation Checklist with flattened JSONB data
 -- This model flattens the JSONB data and standardizes the structure
 
-with observation_checklist_data as (
+with stg_observation_checklist_data as (
     select
-        -- Standard fields
-        _id,
-        "end",
-        data,
-        endtime,
-        _submission_time,
-        _airbyte_raw_id,
-        _airbyte_extracted_at,
-        _airbyte_meta,
+        -- Standard metadata fields
+        _id::integer as survey_id,
         
-        -- Standardized metadata fields
+        -- Basic timestamps
         case 
             when _submission_time is not null then 
                 CAST(_submission_time as timestamp)
@@ -28,26 +21,31 @@ with observation_checklist_data as (
         end as submission_timestamp,
         
         case 
-            when endtime is not null then 
-                CAST(endtime as timestamp)
+            when "end" is not null then 
+                CAST("end" as timestamp)
             else null 
         end as end_timestamp,
         
-        -- Dynamic field extraction using the new macro
-        {{ flatten_json_columns(ref("stg_caf_ajmer_students_2025_baseline_survey"), "data") }},
-        
-        -- Survey-specific fields can be added here if needed
+        -- Raw fields (for reference)
+        _airbyte_raw_id,
+        _airbyte_extracted_at,
+        _airbyte_meta,
         
         -- Data quality indicators
         case when data is not null then true else false end as has_json_data,
         case when _submission_time is not null then true else false end as has_submission_time,
-        case when endtime is not null then true else false end as has_end_time,
+        case when "end" is not null then true else false end as has_end_time,
         
-        -- Timestamps for analysis
+        -- Dynamic JSONB flattening using the macro
+        {{ flatten_json_columns(source('survey_raw_data', 'observation_checklist'), "data") }},
+        
+        -- Additional metadata
         _airbyte_extracted_at as data_extracted_at,
-        current_timestamp as model_created_at
+        current_timestamp as model_created_at,
+        'observation_checklist' as source_table
         
     from {{ source('survey_raw_data', 'observation_checklist') }}
+    where data is not null
 )
 
-select * from observation_checklist_data
+select * from stg_observation_checklist_data
