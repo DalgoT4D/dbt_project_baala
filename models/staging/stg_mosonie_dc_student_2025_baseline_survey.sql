@@ -34,7 +34,7 @@ with mosonie_dc_student_2025_baseline_survey_data as (
         end as end_timestamp,
         
         -- Dynamic field extraction using the new macro
-        {{ extract_all_jsonb_fields('data') }},
+        {{ flatten_json_columns(ref("stg_caf_ajmer_students_2025_baseline_survey"), "data") }},
         
         -- Survey-specific fields can be added here if needed
         
