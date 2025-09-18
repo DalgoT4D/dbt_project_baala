@@ -1,9 +1,171 @@
 version: 2
 
 sources:
-  - name: <source_name>
-    schema: <schema_name>
+  - name: survey_raw_data
+    description: "Raw survey data from various baseline and endline surveys across different projects and locations"
+    schema: "kobotoolbox_source_data"
     tables:
-      - name: <table_name>
-        identifier: <table_name_in_db>
-        description: <table_description>
+      # Baseline Surveys
+      - name: baseline_questionnaire_bareilly
+        identifier: "Baseline_Questionnaire_Bareilly"
+        description: "Baseline questionnaire data from Bareilly project"
+        
+      - name: bir_community_baseline2025
+        identifier: "Bir_Community_Baseline2025"
+        description: "Bir Community baseline survey data from 2025"
+        
+      - name: caf_ajmer_2024_baselineendline_survey
+        identifier: "CAF_Ajmer_2024_baselineendline_survey"
+        description: "CAF Ajmer 2024 baseline and endline survey data"
+        
+      - name: caf_ajmer_students_2025_baseline_survey
+        identifier: "CAF_Ajmer_students_2025_baseline_survey"
+        description: "CAF Ajmer students 2025 baseline survey data"
+        
+      - name: caf_delhi_school_2024_baseline_survey
+        identifier: "CAF_Delhi_School_2024_baseline_survey"
+        description: "CAF Delhi School 2024 baseline survey data"
+        
+      - name: caf_delhi_school_2025_endline_survey
+        identifier: "CAF_Delhi_School_2025_endline_survey"
+        description: "CAF Delhi School 2025 endline survey data"
+        
+      - name: elephanta_community_2025_baseline_survey
+        identifier: "Elephanta_Community_2025_baseline_survey"
+        description: "Elephanta Community 2025 baseline survey data"
+        
+      - name: fbc_community_2024_baseline_survey
+        identifier: "FBC_Community_2024_baseline_survey"
+        description: "FBC Community 2024 baseline survey data"
+        
+      - name: fbc_school_boys_2024_baseline_survey
+        identifier: "FBC_School_Boys_2024_baseline_survey"
+        description: "FBC School Boys 2024 baseline survey data"
+        
+      - name: fbc_school_boys_2024_endline_survey
+        identifier: "FBC_School_Boys_2024_endline_survey"
+        description: "FBC School Boys 2024 endline survey data"
+        
+      - name: fbc_school_girls_2024_baseline_survey
+        identifier: "FBC_School_Girls_2024_baseline_survey"
+        description: "FBC School Girls 2024 baseline survey data"
+        
+      - name: fbc_school_girls_2024_endline_survey
+        identifier: "FBC_School_Girls_2024_endline_survey"
+        description: "FBC School Girls 2024 endline survey data"
+        
+      - name: fbc_women_jhatingri_baseline_questionaire
+        identifier: "FBC_Women_Jhatingri_Baseline_Questionaire"
+        description: "FBC Women Jhatingri baseline questionnaire data"
+        
+      - name: ffec_community_2025_baseline_survey
+        identifier: "FFEC_Community_2025_Baseline_survey"
+        description: "FFEC Community 2025 baseline survey data"
+        
+      - name: jakson_cc_trainers_2025_survey
+        identifier: "Jakson_CC_trainers_2025_survey"
+        description: "Jakson CC trainers 2025 survey data"
+        
+      - name: jakson_community_2024_baseline_survey
+        identifier: "Jakson_Community_2024_baseline_survey"
+        description: "Jakson Community 2024 baseline survey data"
+        
+      - name: jakson_community_2025_endline_survey
+        identifier: "Jakson_community_2025_endline_survey"
+        description: "Jakson Community 2025 endline survey data"
+        
+      - name: jk_fenner_hyd_2025_baseline_survey
+        identifier: "JK_Fenner_Hyd_2025_baseline_survey"
+        description: "JK Fenner Hyderabad 2025 baseline survey data"
+        
+      - name: kokari_2024_baseline_survey
+        identifier: "Kokari_2024_baseline_survey"
+        description: "Kokari 2024 baseline survey data"
+        
+      - name: kokari_community_2025_baseline_survey
+        identifier: "Kokari_Community_2025_baseline_survey"
+        description: "Kokari Community 2025 baseline survey data"
+        
+      - name: kokari_community_2025_endline_survey
+        identifier: "Kokari_Community_2025_endline_survey"
+        description: "Kokari Community 2025 endline survey data"
+        
+      - name: majuli_needs_assessment
+        identifier: "Majuli_needs_assessment"
+        description: "Majuli needs assessment survey data"
+        
+      - name: mamta_2025_endline_survey
+        identifier: "Mamta_2025_endline_survey"
+        description: "Mamta 2025 endline survey data"
+        
+      - name: mamta_school_2023_workshop_long_survey
+        identifier: "Mamta_School_2023_Workshop_Long_survey"
+        description: "Mamta School 2023 workshop long survey data"
+        
+      - name: mamta_school_2023_workshop_short_survey_ece
+        identifier: "Mamta_School_2023_Workshop_short_survey_ece"
+        description: "Mamta School 2023 workshop short survey ECE data"
+        
+      - name: mamta_school_2024_baseline_survey
+        identifier: "MAMTA_school_2024_baseline_survey"
+        description: "MAMTA School 2024 baseline survey data"
+        
+      - name: mamta_school_2025_endline_survey
+        identifier: "MAMTA_school_2025_endline_survey"
+        description: "MAMTA School 2025 endline survey data"
+        
+      - name: mosonie_dc_project_teachers_2025_baseline_survey
+        identifier: "Mosonie_DC_Project_teachers_2025_Baseline_survey"
+        description: "Mosonie DC Project teachers 2025 baseline survey data"
+        
+      - name: mosonie_dc_student_2025_baseline_survey
+        identifier: "Mosonie_DC_Student_2025_baseline_survey"
+        description: "Mosonie DC Student 2025 baseline survey data"
+        
+      - name: mosonie_irctc_community_2025_baseline_survey
+        identifier: "Mosonie_IRCTC_Community_2025_baseline_survey"
+        description: "Mosonie IRCTC Community 2025 baseline survey data"
+        
+      - name: msi_cs_2024_baseline_survey
+        identifier: "MSI_CS_2024_baseline_survey"
+        description: "MSI CS 2024 baseline survey data"
+        
+      - name: msi_cs_2024_endline_survey
+        identifier: "MSI_CS_2024_endline_survey"
+        description: "MSI CS 2024 endline survey data"
+        
+      - name: msi_cs_2025_baseline_survey
+        identifier: "MSI_CS_2025_baseline_survey"
+        description: "MSI CS 2025 baseline survey data"
+        
+      - name: msi_cs_2025_endline_survey
+        identifier: "MSI_CS_2025_endline_survey"
+        description: "MSI CS 2025 endline survey data"
+        
+      - name: msi_trainers_2025_baseline_survey
+        identifier: "MSI_Trainers_2025_baseline_survey"
+        description: "MSI Trainers 2025 baseline survey data"
+        
+      - name: ntpc_community_2024_baseline_survey
+        identifier: "NTPC_Community_2024_baseline_survey"
+        description: "NTPC Community 2024 baseline survey data"
+        
+      - name: ntpc_community_2025_endline_survey
+        identifier: "NTPC_Community_2025_endline_survey"
+        description: "NTPC Community 2025 endline survey data"
+        
+      - name: observation_checklist
+        identifier: "Observation_checklist"
+        description: "Observation checklist data"
+        
+      - name: tfi_school_2024_baseline_survey
+        identifier: "TFI_School_2024_baseline_survey"
+        description: "TFI School 2024 baseline survey data"
+        
+      - name: tfi_school_2024_endline_survey
+        identifier: "TFI_School_2024_endline_survey"
+        description: "TFI School 2024 endline survey data"
+        
+      - name: yflo_community_2025_baseline_survey
+        identifier: "YFLO_community_2025_baseline_survey"
+        description: "YFLO Community 2025 baseline survey data"
