@@ -1,53 +1,51 @@
-{
+{{
     config(
-        materialized='view',
-        tags=['staging', 'survey', 'baseline']
+        materialized='table',
+        tags=['staging', 'survey', 'baseline', 'community']
     )
-}
+}}
 
--- Staging model for mosonie_irctc_community_2025_baseline_survey
+-- Staging model for Mosonie Irctc Community 2025 Baseline Survey with flattened JSONB data
 -- This model flattens the JSONB data and standardizes the structure
 
-with mosonie_irctc_community_2025_baseline_survey_data as (
+with stg_mosonie_irctc_community_2025_baseline_survey_data as (
     select
-        -- Standard fields
-        _id,
-        end,
-        data,
-        endtime,
-        _submission_time,
-        _airbyte_raw_id,
-        _airbyte_extracted_at,
-        _airbyte_meta,
+        -- Standard metadata fields
+        _id::integer as survey_id,
         
-        -- Standardized metadata fields
+        -- Basic timestamps
         case 
             when _submission_time is not null then 
-                try_cast(_submission_time as timestamp)
+                CAST(_submission_time as timestamp)
             else null 
         end as submission_timestamp,
         
         case 
-            when endtime is not null then 
-                try_cast(endtime as timestamp)
+            when "end" is not null then 
+                CAST("end" as timestamp)
             else null 
         end as end_timestamp,
         
-        -- Dynamic field extraction using the new macro
-        {{ extract_all_jsonb_fields('data') }},
-        
-        -- Survey-specific fields can be added here if needed
+        -- Raw fields (for reference)
+        _airbyte_raw_id,
+        _airbyte_extracted_at,
+        _airbyte_meta,
         
         -- Data quality indicators
         case when data is not null then true else false end as has_json_data,
         case when _submission_time is not null then true else false end as has_submission_time,
-        case when endtime is not null then true else false end as has_end_time,
+        case when "end" is not null then true else false end as has_end_time,
         
-        -- Timestamps for analysis
+        -- Dynamic JSONB flattening using the macro
+        {{ flatten_json_columns(source('survey_raw_data', 'mosonie_irctc_community_2025_baseline_survey'), "data") }},
+        
+        -- Additional metadata
         _airbyte_extracted_at as data_extracted_at,
-        current_timestamp as model_created_at
+        current_timestamp as model_created_at,
+        'mosonie_irctc_community_2025_baseline_survey' as source_table
         
     from {{ source('survey_raw_data', 'mosonie_irctc_community_2025_baseline_survey') }}
+    where data is not null
 )
 
-select * from mosonie_irctc_community_2025_baseline_survey_data
+select * from stg_mosonie_irctc_community_2025_baseline_survey_data
