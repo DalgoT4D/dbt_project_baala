@@ -169,3 +169,19 @@ sources:
       - name: yflo_community_2025_baseline_survey
         identifier: "YFLO_community_2025_baseline_survey"
         description: "YFLO Community 2025 baseline survey data"
+
+      - name: barula_community_2025_baseline_survey
+        identifier: "Baraula_Community_2025_baseline_survey"
+        description: "Baruala Community 2025 baseline survey data"
+
+      - name: jk_fenner_hyd_2025_phase_2_baseline_survey
+        identifier: "JK_Fenner_Hyderabad_phase_2_baseline"
+        description: "JK Fenner Hyd 2025 phase 2baseline survey data"
+
+      - name: rajkot_community_2025_baseline_survey
+        identifier: "Rajkot_Community_2025_baseline_survey"
+        description: "Rajkot Community 2025 baseline survey data"
+
+      - name: elephanta_community_2025_endline_survey
+        identifier: "Elephanta_Community_2025_endline_survey"
+        description: "Elephanta Community 2025 endline survey data"

@@ -16,7 +16,7 @@
         
         {# Use original key + loop index to ensure uniqueness #}
         {% set unique_key = safe_key + '_' + loop.index|string %}
-        
+
         {{ column }} ->> '{{ key }}' as {{ unique_key }}{% if not loop.last %},{% endif %}
       {% endif %}
     {% endfor %}

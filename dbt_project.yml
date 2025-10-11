@@ -36,13 +36,9 @@ flags:
 models:
   dbt_project_baala: #put the same name here as in as in .dbt-ci.yml and profiles.yml
     # Config indicated by + and applies to all files under models/example/
-    example:
-      +materialized: view
     # Materialize staging models as tables for better performance
-    # Note: These will be in intermediate_staging schema due to custom schema macro
     staging:
       +materialized: table
-      +schema: "intermediate_staging"
     # Materialize intermediate models as tables
     intermediate:
       +materialized: table
