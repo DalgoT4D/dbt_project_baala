@@ -31,6 +31,11 @@ with transformed as (
 {% set rel = ref('stg_baseline_questionnaire_bareilly') %}
 
 {% set colname_per = get_column_by_substring_postgres(rel, 'firstperiodage') %}
+{% set colname_state = get_column_by_substring_postgres(rel, 'state') %}
+{% set colname_district = get_column_by_substring_postgres(rel, 'district') %}
+{% set colname_block = get_column_by_substring_postgres(rel, 'block') %}
+{% set colname_village = get_column_by_substring_postgres(rel, 'village') %}
+{% set colname_unit_type = get_column_by_substring_postgres(rel, 'unit') %}
 {% set colname_age = get_column_by_substring_postgres(rel, 'E_Age_of_respondent') %}
 {% set colname_menst_mat = get_column_by_substring_postgres(rel, '_4_Which_product_do_you_most_o') %}
 {% set colname_menst_disp = get_column_by_substring_postgres(rel, '_19_Where_do_you_dispose_of_yo') %}
@@ -158,6 +163,31 @@ select
         {{ colname_menst_rem }} as menstrual_remedies
     {% else %}
         'N/A' as menstrual_remedies
+    {% endif %},
+    {% if colname_state != 'N/A' %}
+        {{ colname_state }} as state_name
+    {% else %}
+        'N/A' as state_name
+    {% endif %},
+    {% if colname_district != 'N/A' %}
+        {{ colname_district }} as district_name
+    {% else %}
+        'N/A' as district_name
+    {% endif %},
+    {% if colname_block != 'N/A' %}
+        {{ colname_block }} as block_name
+    {% else %}
+        'N/A' as block_name
+    {% endif %},
+    {% if colname_village != 'N/A' %}
+        {{ colname_village }} as village_name
+    {% else %}
+        'N/A' as village_name
+    {% endif %},
+    {% if colname_unit_type != 'N/A' %}
+        {{ colname_unit_type }} as unit_type
+    {% else %}
+        'N/A' as unit_type
     {% endif %}
     
 from transformed

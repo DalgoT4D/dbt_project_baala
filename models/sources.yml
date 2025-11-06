@@ -185,3 +185,11 @@ sources:
       - name: elephanta_community_2025_endline_survey
         identifier: "Elephanta_Community_2025_endline_survey"
         description: "Elephanta Community 2025 endline survey data"
+
+  - name: forms_mapping_data
+    description: "Forms mapping sheet containing list of relevant forms to be analysed & extra fields to be appended"
+    schema: "kobotoolbox_source_data"
+    tables:
+      - name: forms_mapping_sheet
+        identifier: "Forms_Mapping"
+        description: "Forms mapping sheet data"
