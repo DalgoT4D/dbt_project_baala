@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_tfi_school_2024_baseline_survey'), 
@@ -30,7 +30,7 @@ with transformed as (
 {% set rel = ref('stg_tfi_school_2024_baseline_survey') %}
 
 {% set colname_per = get_column_by_substring_postgres(rel, 'firstperiodage') %}
-{% set colname_age = get_column_by_substring_postgres(rel, 'woman_age') %}
+{% set colname_age = get_column_by_substring_postgres(rel, 'age') %}
 {% set colname_menst_mat = get_column_by_substring_postgres(rel, 'periodmat') %}
 {% set colname_menst_disp = get_column_by_substring_postgres(rel, 'How_do_you_dispose_the_materia') %}
 {% set colname_pms = get_column_by_substring_postgres(rel, '-') %}
@@ -49,7 +49,7 @@ with transformed as (
 {% set colname_edu = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_ration = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_marit_status = get_column_by_substring_postgres(rel, '-') %}
-{% set colname_menst_rem = get_column_by_substring_postgres(rel, 'What_remedies_do_you_take_duri') %}
+{% set colname_menst_rem = get_column_by_substring_postgres(rel, 'What_remedies_do_you_ods_to_ease_the_pain') %}
 {% set colname_state = get_column_by_substring_postgres(rel, 'state') %}
 {% set colname_district = get_column_by_substring_postgres(rel, 'district') %}
 {% set colname_block = get_column_by_substring_postgres(rel, 'block') %}

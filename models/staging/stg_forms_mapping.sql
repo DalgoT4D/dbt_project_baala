@@ -20,12 +20,13 @@ with source as (
         nullif(btrim(place), '') as place,
         nullif(btrim(if_school_then_school_type), '') as school_type,
         nullif(btrim(if_school_then_enrollment_type), '') as enrollment_type,
-        nullif(btrim(if_community_then_community_type), '') as community_type
+        nullif(btrim(if_community_then_community_type), '') as community_type,
+        nullif(btrim(respondent_type), '') as respondent_type
     from {{ source('forms_mapping_data', 'forms_mapping_sheet') }}
 ),
 
 cleaned as (
-    SELECT  
+    select  
         form_name,
         state_name,
         district_name,
@@ -36,12 +37,14 @@ cleaned as (
         beneficiary_type,
         place,
         case when place = 'School' then school_type else community_type end as place_type,
-        case when place = 'School' then enrollment_type else 'N/A' end as enrollment_type
+        case when place = 'School' then enrollment_type else 'N/A' end as enrollment_type,
+        respondent_type
 
     from source
 )
 
-SELECT *
-FROM cleaned
-WHERE form_name IS NOT NULL
-AND form_name != 'NA'
+select *
+from cleaned
+where
+    form_name is not NULL
+    and form_name != 'NA'

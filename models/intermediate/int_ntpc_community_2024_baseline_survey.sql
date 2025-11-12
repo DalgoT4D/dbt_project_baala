@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_ntpc_community_2024_baseline_survey'), 
@@ -30,25 +30,25 @@ with transformed as (
 {% set rel = ref('stg_ntpc_community_2024_baseline_survey') %}
 
 {% set colname_per = get_column_by_substring_postgres(rel, 'first_menstrual_period') %}
-{% set colname_age = get_column_by_substring_postgres(rel, 'woman_age') %}
+{% set colname_age = get_column_by_substring_postgres(rel, 'Age_of_the_respondent') %}
 {% set colname_menst_mat = get_column_by_substring_postgres(rel, 'mixed_material') %}
-{% set colname_menst_disp = get_column_by_substring_postgres(rel, 'Ask_the_respondent_How_do_yo') %}
+{% set colname_menst_disp = get_column_by_substring_postgres(rel, 'Ask_the_respondent_ispose_the_materials') %}
 {% set colname_pms = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_menst_symp = get_column_by_substring_postgres(rel, '-') %}
-{% set colname_periodtrad = get_column_by_substring_postgres(rel, 'What_are_some_of_the_tradition') %}
+{% set colname_periodtrad = get_column_by_substring_postgres(rel, 'What_are_some_of_the_y_you_or_your_family') %}
 {% set colname_menst_spend = get_column_by_substring_postgres(rel, '-') %}
-{% set colname_menst_pred = get_column_by_substring_postgres(rel, 'Ask_the_respondent_Can_you_u') %}
+{% set colname_menst_pred = get_column_by_substring_postgres(rel, 'Ask_the_respondent_struation_will_start') %}
 {% set colname_menst_info = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_menst_setback = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_smrtphn_access = get_column_by_substring_postgres(rel, '-') %}
-{% set colname_firstperiod = get_column_by_substring_postgres(rel, 'Ask_the_respondent_Before_yo') %}
+{% set colname_firstperiod = get_column_by_substring_postgres(rel, 'Ask_the_respondent_w_about_menstruation') %}
 {% set colname_menst_anxiety = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_religion = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_relig') %}
 {% set colname_caste = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_caste') %}
 {% set colname_occupation = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_emplo') %}
-{% set colname_edu = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_educa') %}
-{% set colname_ration = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_ratio') %}
-{% set colname_marit_status = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_marit') %}
+{% set colname_edu = get_column_by_substring_postgres(rel, 'What_is_the_responde_ion_education_status') %}
+{% set colname_ration = get_column_by_substring_postgres(rel, 'What_is_the_responde_s_ration_card_status') %}
+{% set colname_marit_status = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_marital_status') %}
 {% set colname_menst_rem = get_column_by_substring_postgres(rel, 'Ask_the_respondent_What_reme') %}
 {% set colname_state = get_column_by_substring_postgres(rel, 'state') %}
 {% set colname_district = get_column_by_substring_postgres(rel, 'district') %}

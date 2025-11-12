@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_ffec_community_2025_baseline_survey'), 
@@ -43,11 +43,11 @@ with transformed as (
 {% set colname_menst_setback = get_column_by_substring_postgres(rel, 'woman_act') %}
 {% set colname_smrtphn_access = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_firstperiod = get_column_by_substring_postgres(rel, 'woman_knowm') %}
-{% set colname_menst_anxiety = get_column_by_substring_postgres(rel, 'How_often_do_you_feel_anxious_') %}
+{% set colname_menst_anxiety = get_column_by_substring_postgres(rel, 'How_often_do_you_fee_t_on_your_daily_life') %}
 {% set colname_religion = get_column_by_substring_postgres(rel, 'What_is_the_woman_s_religion') %}
 {% set colname_caste = get_column_by_substring_postgres(rel, 'woman_caste') %}
 {% set colname_occupation = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_emplo') %}
-{% set colname_edu = get_column_by_substring_postgres(rel, 'What_is_the_respondent_s_educa') %}
+{% set colname_edu = get_column_by_substring_postgres(rel, 'What_is_the_responde_t_s_education_status') %}
 {% set colname_ration = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_marit_status = get_column_by_substring_postgres(rel, 'Woman_s_marital_status') %}
 {% set colname_menst_rem = get_column_by_substring_postgres(rel, 'What_remedies_do_you_take_duri') %}

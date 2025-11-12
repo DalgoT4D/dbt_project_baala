@@ -15,15 +15,15 @@ with stg_ntpc_community_2025_endline_survey_data as (
         
         -- Basic timestamps
         case 
-            when _submission_time is not null then 
-                CAST(_submission_time as timestamp)
-            else null 
+            when _submission_time is not null
+                then 
+                    _submission_time::timestamp 
         end as submission_timestamp,
         
         case 
-            when "end" is not null then 
-                CAST("end" as timestamp)
-            else null 
+            when "end" is not null
+                then 
+                    "end"::timestamp 
         end as end_timestamp,
         
         -- Raw fields (for reference)
@@ -32,9 +32,9 @@ with stg_ntpc_community_2025_endline_survey_data as (
         _airbyte_meta,
         
         -- Data quality indicators
-        case when data is not null then true else false end as has_json_data,
-        case when _submission_time is not null then true else false end as has_submission_time,
-        case when "end" is not null then true else false end as has_end_time,
+        coalesce(data is not null, false) as has_json_data,
+        coalesce(_submission_time is not null, false) as has_submission_time,
+        coalesce("end" is not null, false) as has_end_time,
         
         -- Dynamic JSONB flattening using the macro
         {{ flatten_json_columns(source('survey_raw_data', 'ntpc_community_2025_endline_survey'), "data") }},

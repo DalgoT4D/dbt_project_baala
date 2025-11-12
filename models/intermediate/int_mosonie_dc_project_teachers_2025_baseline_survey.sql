@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_mosonie_dc_project_teachers_2025_baseline_survey'), 
@@ -37,7 +37,7 @@ with transformed as (
 {% set colname_menst_symp = get_column_by_substring_postgres(rel, 'What_symptoms_do_you_experienc') %}
 {% set colname_periodtrad = get_column_by_substring_postgres(rel, 'What_are_some_of_the_tradition') %}
 {% set colname_menst_spend = get_column_by_substring_postgres(rel, 'On_average_how_much_money_do_') %}
-{% set colname_menst_pred = get_column_by_substring_postgres(rel, 'Can_you_usually_predict_when_m') %}
+{% set colname_menst_pred = get_column_by_substring_postgres(rel, 'Can_you_usually_pred_struation_will_start') %}
 {% set colname_menst_info = get_column_by_substring_postgres(rel, '-') %}
 {% set colname_menst_setback = get_column_by_substring_postgres(rel, 'periodscmiss') %}
 {% set colname_smrtphn_access = get_column_by_substring_postgres(rel, '-') %}

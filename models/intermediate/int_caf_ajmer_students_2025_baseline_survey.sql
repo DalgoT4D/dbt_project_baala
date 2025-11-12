@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_caf_ajmer_students_2025_baseline_survey'), 
@@ -190,4 +190,4 @@ select
         'N/A' as unit_type
     {% endif %}
     
-from transformed t
+from transformed
