@@ -61,7 +61,7 @@ jobs:
           mkdir -p /home/runner/.dbt
           echo "Creating profiles.yml..."
           cat <<EOF > /home/runner/.dbt/profiles.yml
-          <dbt_project_name>:
+          dbt_project_baala:
             outputs:
               dev:
                 dbname: "{{ env_var('POSTGRES_DBNAME') }}"
