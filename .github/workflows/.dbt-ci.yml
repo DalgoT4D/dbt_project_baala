@@ -24,7 +24,7 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.13.7'
 
       #REMOVE Step 3,4,5 if your project doesn't need an SSH Tunnel
       # Step 3: Add SSH private key and configure known_hosts
