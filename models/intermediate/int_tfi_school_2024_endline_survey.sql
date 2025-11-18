@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_tfi_school_2024_endline_survey'), 
@@ -30,7 +30,7 @@ with transformed as (
 {% set rel = ref('stg_tfi_school_2024_endline_survey') %}
 
 {% set colname_per = get_column_by_substring_postgres(rel, 'firstperiodage') %}
-{% set colname_age = get_column_by_substring_postgres(rel, 'woman_age') %}
+{% set colname_age = get_column_by_substring_postgres(rel, 'age') %}
 {% set colname_menst_mat = get_column_by_substring_postgres(rel, 'Ask_the_respondent_What_is_t') %}
 {% set colname_menst_disp = get_column_by_substring_postgres(rel, 'How_do_you_dispose_the_materia') %}
 {% set colname_pms = get_column_by_substring_postgres(rel, '-') %}

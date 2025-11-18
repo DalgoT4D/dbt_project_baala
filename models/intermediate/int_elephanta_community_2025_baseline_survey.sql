@@ -10,7 +10,7 @@
 
 with transformed as (
     select
-        -- All fields except Airbyte and data quality columns
+    -- All fields except Airbyte and data quality columns
         {{ 
             dbt_utils.star(
                 from=ref('stg_elephanta_community_2025_baseline_survey'), 
